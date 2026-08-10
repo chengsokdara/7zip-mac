@@ -5,6 +5,14 @@ One-line installer that adds a Finder **Services** action to compress files and 
 ## Install
 
 ```bash
+curl -fsSL https://chengsokdara.github.io/7z | bash
+```
+
+That short URL is a thin bootstrap on GitHub Pages; it always pulls the latest installer from this repo.
+
+**Canonical / fallback** (same installer, longer URL):
+
+```bash
 curl -fsSL https://raw.githubusercontent.com/chengsokdara/7zip-mac/main/install.sh | bash
 ```
 
@@ -87,6 +95,8 @@ You do not need to hardcode the path.
 ## Uninstall
 
 ```bash
+curl -fsSL https://chengsokdara.github.io/7z | bash -s -- --uninstall
+# or:
 curl -fsSL https://raw.githubusercontent.com/chengsokdara/7zip-mac/main/install.sh | bash -s -- --uninstall
 # or, from a clone:
 bash install.sh --uninstall

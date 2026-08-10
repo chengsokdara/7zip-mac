@@ -6,6 +6,7 @@
 # the selected file(s) or folder(s), using the 7zz CLI.
 #
 # Usage:
+#   curl -fsSL https://chengsokdara.github.io/7z | bash
 #   curl -fsSL https://raw.githubusercontent.com/chengsokdara/7zip-mac/main/install.sh | bash
 #   bash install.sh
 #   bash install.sh --uninstall
@@ -378,6 +379,6 @@ If the action does not appear yet:
 Uninstall:
   bash $(basename "$0") --uninstall
   # or:
-  # curl -fsSL https://raw.githubusercontent.com/chengsokdara/7zip-mac/main/install.sh | bash -s -- --uninstall
+  # curl -fsSL https://chengsokdara.github.io/7z | bash -s -- --uninstall
 
 EOF
