@@ -51,18 +51,19 @@ Right-click in Finder → **Services** (on some older macOS versions: **Quick Ac
 | Service | What it does |
 |---------|----------------|
 | **Compress with 7-Zip** | Creates `Name.7z` next to the selected file or folder (`Name-2.7z` if needed) |
-| **Uncompress with 7-Zip** | Extracts into the **same folder** as the archive (full paths) |
+| **Uncompress with 7-Zip Here** | Extracts into the **same folder** as the archive (full paths) |
 | **Uncompress with 7-Zip to Folder** | Extracts into a **permanent** folder named after the archive (e.g. `Photos.7z` → `Photos/`) |
-| **Open with 7-Zip** | Extracts into a **temporary** folder under macOS `$TMPDIR` and opens it in Finder |
+| **Open with 7-Zip** | Clears `$TMPDIR/7zip-mac`, extracts archive **contents directly** into it, opens Finder |
 
 ### Open with 7-Zip (browse)
 
 There is no official 7-Zip GUI on macOS (Homebrew ships the `7zz` CLI only). **Open with 7-Zip** is the lightweight explore path:
 
-1. Extract to `$TMPDIR/7zip-mac.XXXXXX/<archive-name>/`
-2. Open that folder in Finder
+1. Wipe `$TMPDIR/7zip-mac` (and any old `7zip-mac.*` leftovers)
+2. Extract the archive **here** into that folder (no extra subfolder named after the `.7z`)
+3. Open `$TMPDIR/7zip-mac` in Finder
 
-macOS may reclaim temp files later (disk pressure, reboot, system maintenance). For permanent extracts, use **Uncompress with 7-Zip** or **… to Folder**.
+Each Open reuses the same workspace so previous browse extracts do not pile up. For permanent extracts, use **Uncompress with 7-Zip Here** or **… to Folder**.
 
 True browse-without-extract apps (not installed by us): Keka, BetterZip, The Unarchiver, etc.
 
@@ -119,7 +120,7 @@ The installer builds standard Automator **Service** bundles:
 ```
 ~/Library/Services/
   Compress with 7-Zip.workflow/
-  Uncompress with 7-Zip.workflow/
+  Uncompress with 7-Zip Here.workflow/
   Uncompress with 7-Zip to Folder.workflow/
   Open with 7-Zip.workflow/
 ```

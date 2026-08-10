@@ -18,15 +18,17 @@ FORCE=0
 UNINSTALL=0
 
 SERVICE_COMPRESS="Compress with 7-Zip"
-SERVICE_EXTRACT="Uncompress with 7-Zip"
+SERVICE_EXTRACT="Uncompress with 7-Zip Here"
 SERVICE_EXTRACT_FOLDER="Uncompress with 7-Zip to Folder"
 SERVICE_OPEN="Open with 7-Zip"
 
+# Current + legacy names (legacy removed on install/uninstall).
 ALL_SERVICES=(
   "$SERVICE_COMPRESS"
   "$SERVICE_EXTRACT"
   "$SERVICE_EXTRACT_FOLDER"
   "$SERVICE_OPEN"
+  "Uncompress with 7-Zip" # legacy rename → … Here
 )
 
 usage() {
@@ -131,6 +133,14 @@ Install Homebrew from https://brew.sh then re-run this script, or install 7-Zip 
 SEVENZZ_PATH=""
 ensure_7zz
 mkdir -p "$SERVICES_DIR"
+
+# Drop renamed/legacy workflows so the Services menu stays clean.
+for legacy in "Uncompress with 7-Zip"; do
+  if [[ -d "${SERVICES_DIR}/${legacy}.workflow" ]]; then
+    log "Removing legacy service: ${legacy}"
+    rm -rf "${SERVICES_DIR}/${legacy}.workflow"
+  fi
+done
 
 # Shared helpers embedded in every workflow.
 read -r -d '' SHARED_HELPERS <<'EOS' || true
@@ -275,24 +285,29 @@ EOS
 read -r -d '' BODY_OPEN <<'EOS' || true
 require_7zz
 
+# Single reusable temp workspace (cleared on every Open).
+# Contents are extracted directly into this folder (not nested under the .7z name).
+OPEN_ROOT="${TMPDIR:-/tmp}/7zip-mac"
+
 failed=0
 for f in "$@"; do
   [[ -f "$f" ]] || continue
 
   name="$(basename "$f")"
-  base="$(strip_archive_ext "$name")"
 
-  tmpdir="$(mktemp -d "${TMPDIR:-/tmp}/7zip-mac.XXXXXX")"
-  out="${tmpdir}/${base}"
+  # Drop previous browse extract + any old mktemp-style leftovers from earlier versions.
+  rm -rf "$OPEN_ROOT"
+  find "${TMPDIR:-/tmp}" -maxdepth 1 -name '7zip-mac.*' -exec rm -rf {} + 2>/dev/null || true
+  mkdir -p "$OPEN_ROOT"
 
-  if ! "$SEVENZZ" x -y "-o${out}" -- "$f" >/dev/null; then
+  if ! "$SEVENZZ" x -y "-o${OPEN_ROOT}" -- "$f" >/dev/null; then
     notify "__ACTION_NAME__" "Failed: ${name}"
-    rm -rf "$tmpdir"
+    rm -rf "$OPEN_ROOT"
     failed=1
     continue
   fi
 
-  open "$out"
+  open "$OPEN_ROOT"
 done
 
 [[ "$failed" -eq 0 ]] || exit 1
@@ -477,12 +492,12 @@ Installed successfully.
     • ${SERVICE_COMPRESS}
         Create a .7z next to the selected file/folder
     • ${SERVICE_EXTRACT}
-        Extract archive contents into the same folder
+        Extract archive contents into the same folder as the .7z
     • ${SERVICE_EXTRACT_FOLDER}
         Extract into a permanent folder named after the archive
     • ${SERVICE_OPEN}
-        Extract to a temporary folder (\$TMPDIR) and open in Finder
-        (macOS may reclaim temp files later; use Uncompress for keeps)
+        Clear \$TMPDIR/7zip-mac, extract contents there, open in Finder
+        (reused/cleared on each Open; use Uncompress for permanent copies)
 
 Location: ${SERVICES_DIR}
 
