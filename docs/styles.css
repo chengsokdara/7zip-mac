@@ -76,14 +76,25 @@ a:hover {
   margin-inline: auto;
 }
 
+/*
+ * Full-viewport hero (first screen only).
+ * Design pattern: full-bleed / 100vh hero — content below the fold
+ * is only visible after the user scrolls.
+ */
+.hero-screen {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
 /* Nav */
 .nav {
-  position: sticky;
-  top: 0;
+  flex: 0 0 auto;
   z-index: 50;
-  backdrop-filter: blur(12px);
-  background: rgba(7, 8, 10, 0.88);
-  border-bottom: 1px solid var(--border);
+  background: transparent;
+  border-bottom: 1px solid transparent;
 }
 
 .nav-inner {
@@ -91,7 +102,7 @@ a:hover {
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  padding: 0.75rem 0;
+  padding: 0.9rem 0;
 }
 
 .brand {
@@ -130,10 +141,21 @@ a:hover {
   color: var(--brand-bright);
 }
 
-/* Hero — tight, Grok Build–style */
+/* Hero — fills remaining viewport under nav, content centered */
 .hero {
-  padding: 5rem 0 3.5rem;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   text-align: center;
+  padding: 1rem 0 4.5rem;
+  position: relative;
+  min-height: 0;
+}
+
+.hero-main {
+  width: 100%;
 }
 
 .hero h1 {
@@ -157,7 +179,51 @@ a:hover {
   font-size: 0.95em;
 }
 
-/* Install command — no chrome chrome */
+.hero-hint {
+  margin: 0.9rem 0 0;
+  color: var(--dim);
+  font-size: 0.82rem;
+}
+
+.scroll-cue {
+  position: absolute;
+  bottom: 1.35rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  color: var(--dim);
+  text-decoration: none;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: color 0.15s;
+}
+
+.scroll-cue:hover {
+  color: var(--brand-bright);
+  text-decoration: none;
+}
+
+.scroll-cue-arrow {
+  font-size: 1.1rem;
+  animation: bounce 1.6s ease-in-out infinite;
+  color: var(--brand);
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(5px);
+  }
+}
+
+/* Install command */
 .term {
   max-width: 40rem;
   margin: 0 auto;
@@ -239,16 +305,14 @@ a:hover {
   background: var(--brand-soft);
 }
 
-.hero-hint {
-  margin: 0.9rem 0 0;
-  color: var(--dim);
-  font-size: 0.82rem;
-}
-
-/* Sections */
-section:not(.hero) {
+/* Sections below the fold */
+#main > section {
   padding: 2.75rem 0;
   border-top: 1px solid var(--border);
+}
+
+#features {
+  scroll-margin-top: 1rem;
 }
 
 .section-kicker {
@@ -526,7 +590,7 @@ section h2 {
 
 @media (max-width: 560px) {
   .hero {
-    padding: 3.5rem 0 2.5rem;
+    padding: 0.5rem 0 4rem;
   }
 
   .cmd-row {

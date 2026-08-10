@@ -169,40 +169,50 @@
     </script>
   </head>
   <body>
-    <a class="skip" href="#main">Skip to content</a>
+    <a class="skip" href="#features">Skip to content</a>
 
-    <header class="nav">
-      <div class="wrap nav-inner">
-        <a class="brand" href="./" aria-label="7zip-mac home">
-          <img class="brand-mark" src="favicon.svg" width="28" height="28" alt="" />
-          <span>7zip-mac</span>
+    <!-- Full-viewport first screen: only hero is visible until the user scrolls -->
+    <div class="hero-screen" id="install">
+      <header class="nav">
+        <div class="wrap nav-inner">
+          <a class="brand" href="./" aria-label="7zip-mac home">
+            <img class="brand-mark" src="favicon.svg" width="28" height="28" alt="" />
+            <span>7zip-mac</span>
+          </a>
+          <nav class="nav-links" aria-label="Primary">
+            <a href="#install">Install</a>
+            <a href="#features">Features</a>
+            <a href="#faq">FAQ</a>
+            <a href="#support">Support</a>
+            <a data-link="repo" href="https://github.com/chengsokdara/7zip-mac" rel="noopener">GitHub</a>
+          </nav>
+        </div>
+      </header>
+
+      <section class="hero wrap" aria-labelledby="hero-title">
+        <div class="hero-main">
+          <h1 id="hero-title">7-Zip for Mac</h1>
+          <p class="lead">
+            Right-click compress, extract, and open <code>.7z</code> in Finder.
+          </p>
+
+          <div class="term" role="region" aria-label="Install command">
+            <div class="cmd-row">
+              <pre class="cmd" id="install-cmd" tabindex="0"><span data-text="install-short">curl -fsSL https://chengsokdara.github.io/7z | bash</span></pre>
+              <button type="button" class="btn btn-primary" data-copy="short">Copy</button>
+            </div>
+          </div>
+          <p class="hero-hint">Copy and paste into Terminal.</p>
+        </div>
+
+        <a class="scroll-cue" href="#features" aria-label="Scroll to features">
+          <span class="scroll-cue-label">Scroll</span>
+          <span class="scroll-cue-arrow" aria-hidden="true">↓</span>
         </a>
-        <nav class="nav-links" aria-label="Primary">
-          <a href="#install">Install</a>
-          <a href="#features">Features</a>
-          <a href="#faq">FAQ</a>
-          <a href="#support">Support</a>
-          <a data-link="repo" href="https://github.com/chengsokdara/7zip-mac" rel="noopener">GitHub</a>
-        </nav>
-      </div>
-    </header>
+      </section>
+    </div>
 
     <main id="main">
-      <section class="hero wrap" id="install" aria-labelledby="hero-title">
-        <h1 id="hero-title">7-Zip for Mac</h1>
-        <p class="lead">
-          Right-click compress, extract, and open <code>.7z</code> in Finder.
-        </p>
-
-        <div class="term" role="region" aria-label="Install command">
-          <div class="cmd-row">
-            <pre class="cmd" id="install-cmd" tabindex="0"><span data-text="install-short">curl -fsSL https://chengsokdara.github.io/7z | bash</span></pre>
-            <button type="button" class="btn btn-primary" data-copy="short">Copy</button>
-          </div>
-        </div>
-        <p class="hero-hint">Copy and paste into Terminal.</p>
-      </section>
-
       <section id="features" class="wrap" aria-labelledby="features-title">
         <p class="section-kicker">// features</p>
         <h2 id="features-title">Compress and extract .7z in Finder</h2>
