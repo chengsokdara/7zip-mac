@@ -1,4 +1,4 @@
-/* Edit these links anytime — used by the landing page. */
+/* Edit these links anytime. Used by the landing page. */
 window.SITE = {
   name: "7zip-mac",
   title: "7-Zip for Mac",
@@ -12,7 +12,7 @@ window.SITE = {
   author: {
     name: "Cheng Sokdara",
     github: "https://github.com/chengsokdara",
-    /** GitHub Sponsors — Cambodia is a supported region for receiving funds */
+    /** GitHub Sponsors (Cambodia is a supported region for receiving funds) */
     sponsors: "https://github.com/sponsors/chengsokdara",
     resume: "https://chengsokdara.github.io/resume",
     portfolio: "https://chengsokdara.github.io",

@@ -1,6 +1,6 @@
 # 7zip-mac
 
-**Website:** [7-Zip for Mac](https://chengsokdara.github.io/7zip-mac/) — terminal-style landing page, install one-liner, FAQ.
+**Website:** [7-Zip for Mac](https://chengsokdara.github.io/7zip-mac/): terminal-style landing page, install one-liner, FAQ.
 
 One-line installer that adds Finder **Services** for [7-Zip](https://www.7-zip.org/) (`7zz`) on macOS: compress, uncompress, and open (browse in Finder).
 
@@ -131,6 +131,6 @@ Each bundle is a **Run Shell Script** action that calls `7zz`. No Automator GUI 
 
 ## License
 
-MIT — see [LICENSE](./LICENSE).
+MIT. See [LICENSE](./LICENSE).
 
 7-Zip itself is separate software with its own license; this repo only ships the macOS Finder installer scripts.

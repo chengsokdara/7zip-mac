@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# 7zip-mac — Finder Services installer for 7-Zip (7zz)
+# 7zip-mac: Finder Services installer for 7-Zip (7zz)
 #
 # Installs right-click Services for compress / uncompress / open (browse in Finder).
 #
@@ -118,7 +118,7 @@ Install Homebrew from https://brew.sh then re-run this script, or install 7-Zip 
   brew install sevenzip"
   fi
 
-  log "7zz not found — installing sevenzip via Homebrew..."
+  log "7zz not found: installing sevenzip via Homebrew..."
   brew install sevenzip
 
   if path="$(resolve_7zz)"; then

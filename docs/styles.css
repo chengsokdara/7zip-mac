@@ -1,4 +1,4 @@
-/* 7zip-mac — terminal product page · Khmer gold brand */
+/* 7zip-mac: terminal product page · Khmer gold brand */
 :root {
   --bg: #07080a;
   --bg-elevated: #0d1117;
@@ -78,7 +78,7 @@ a:hover {
 
 /*
  * Full-viewport hero (first screen only).
- * Design pattern: full-bleed / 100vh hero — content below the fold
+ * Design pattern: full-bleed / 100vh hero: content below the fold
  * is only visible after the user scrolls.
  */
 .hero-screen {
@@ -141,7 +141,7 @@ a:hover {
   color: var(--brand-bright);
 }
 
-/* Hero — Grok Build–style centered stack, full remaining viewport */
+/* Hero: Grok Build-style centered stack, full remaining viewport */
 .hero {
   flex: 1 1 auto;
   display: flex;
@@ -226,7 +226,7 @@ a:hover {
   font-size: 0.95em;
 }
 
-/* Install pill — Grok Build style with gold shimmer */
+/* Install pill: Grok Build style with gold shimmer */
 .install-pill-wrap {
   display: flex;
   justify-content: center;

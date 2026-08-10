@@ -105,7 +105,7 @@
           }, 1400);
         })
         .catch(function () {
-          showToast("Copy failed — select the command manually");
+          showToast("Copy failed: select the command manually");
         });
     });
   });
