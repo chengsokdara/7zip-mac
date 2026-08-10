@@ -191,47 +191,61 @@
 
       <section class="hero wrap" aria-labelledby="hero-title">
         <div class="hero-main">
-          <p class="eyebrow">open source · macOS · one command</p>
-          <h1 id="hero-title">7-Zip for Mac<span class="cursor" aria-hidden="true">_</span></h1>
-          <p class="lead">
-            Free Finder <strong>Services</strong> for the official 7-Zip CLI (<code>7zz</code>).
-            Compress folders to <strong>.7z</strong>, extract archives, and open 7z files on Mac —
-            without Automator busywork. Built for people searching for
-            <strong>7-Zip for Mac</strong>, a simple way to
-            <strong>open 7z on Mac</strong>, and right-click compress in Finder.
+          <h1 id="hero-title" class="hero-title">7-Zip for Mac</h1>
+
+          <p class="hero-badge" role="note">
+            <span class="hero-badge-dot" aria-hidden="true"></span>
+            Free · open source · Finder Services
           </p>
 
-          <div class="term" role="region" aria-label="Install command">
-            <div class="term-bar">
-              <span class="dot dot-r" aria-hidden="true"></span>
-              <span class="dot dot-y" aria-hidden="true"></span>
-              <span class="dot dot-g" aria-hidden="true"></span>
-              <span>install — bash</span>
-            </div>
-            <div class="term-body">
-              <div class="term-label"># Install 7-Zip for Mac (Finder Services + 7zz)</div>
-              <div class="cmd-row">
-                <pre class="cmd" id="install-cmd" tabindex="0"><span class="prompt">$ </span><span data-text="install-short">curl -fsSL https://chengsokdara.github.io/7z | bash</span></pre>
-                <button type="button" class="btn btn-primary" data-copy="short">Copy</button>
-              </div>
-              <div class="meta-row">
-                <span>macOS only</span>
-                <span>Homebrew used if 7zz is missing</span>
-                <span>MIT license</span>
-              </div>
-              <p class="alt-install">
-                Canonical URL:
-                <code data-text="install-canonical"
-                  >curl -fsSL https://raw.githubusercontent.com/chengsokdara/7zip-mac/main/install.sh | bash</code
-                >
-                <button type="button" class="btn btn-ghost" data-copy="canonical">Copy</button>
-              </p>
+          <p class="lead">
+            Right-click to compress, extract, and open <code>.7z</code> on macOS —
+            powered by the official 7-Zip CLI. One command to install.
+          </p>
+
+          <div class="install-pill-wrap">
+            <div class="install-pill" role="group" aria-label="Install command">
+              <code class="install-code" id="install-cmd">
+                <span class="tok-prompt">$</span>
+                <span class="tok-cmd">curl</span>
+                <span class="tok-flag">-fsSL</span>
+                <span class="tok-url">https://chengsokdara.github.io/7z</span>
+                <span class="tok-pipe">|</span>
+                <span class="tok-shell">bash</span>
+              </code>
+              <button
+                type="button"
+                class="install-copy"
+                data-copy="short"
+                aria-label="Copy install command"
+                title="Copy"
+              >
+                <svg class="icon-copy" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <rect x="9" y="9" width="11" height="11" rx="2" stroke="currentColor" stroke-width="1.75" />
+                  <path
+                    d="M6 15H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v1"
+                    stroke="currentColor"
+                    stroke-width="1.75"
+                    stroke-linecap="round"
+                  />
+                </svg>
+                <svg class="icon-check" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path
+                    d="M5 12.5l4.5 4.5L19 7"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </button>
             </div>
           </div>
+
+          <p class="hero-hint">Copy and paste into Terminal to install</p>
         </div>
 
         <a class="scroll-cue" href="#features" aria-label="Scroll to features">
-          <span class="scroll-cue-label">Scroll</span>
           <span class="scroll-cue-arrow" aria-hidden="true">↓</span>
         </a>
       </section>

@@ -85,11 +85,24 @@
       copyText(text)
         .then(function () {
           showToast("Copied to clipboard");
-          var prev = btn.textContent;
-          btn.textContent = "Copied";
+          btn.classList.add("is-copied");
+          var prev = btn.getAttribute("aria-label") || "Copy";
+          btn.setAttribute("aria-label", "Copied");
+          // Legacy text buttons
+          if (!btn.querySelector(".icon-copy") && btn.textContent) {
+            var old = btn.textContent;
+            btn.textContent = "Copied";
+            setTimeout(function () {
+              btn.textContent = old;
+              btn.classList.remove("is-copied");
+              btn.setAttribute("aria-label", prev);
+            }, 1400);
+            return;
+          }
           setTimeout(function () {
-            btn.textContent = prev;
-          }, 1200);
+            btn.classList.remove("is-copied");
+            btn.setAttribute("aria-label", prev);
+          }, 1400);
         })
         .catch(function () {
           showToast("Copy failed — select the command manually");

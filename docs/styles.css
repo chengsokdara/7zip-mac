@@ -141,41 +141,65 @@ a:hover {
   color: var(--brand-bright);
 }
 
-/* Hero — fills remaining viewport under nav, content centered */
+/* Hero — Grok Build–style centered stack, full remaining viewport */
 .hero {
   flex: 1 1 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 1.25rem 0 4.5rem;
+  padding: 1.5rem 0 4.5rem;
   position: relative;
   min-height: 0;
 }
 
 .hero-main {
   width: 100%;
-  text-align: left;
+  max-width: 36rem;
+  margin: 0 auto;
+  text-align: center;
+  animation: hero-in 0.7s ease-out both;
 }
 
-.eyebrow {
+@keyframes hero-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-title {
+  margin: 0 0 1rem;
+  font-size: clamp(2rem, 5vw, 2.75rem);
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.hero-badge {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  color: var(--brand);
+  gap: 0.45rem;
+  margin: 0 0 1.35rem;
+  padding: 0.35rem 0.85rem 0.35rem 0.55rem;
+  border-radius: 999px;
+  border: 1px solid var(--border-bright);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--muted);
   font-size: 0.8rem;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  margin: 0 0 1rem;
 }
 
-.eyebrow::before {
-  content: "";
-  width: 8px;
-  height: 8px;
+.hero-badge-dot {
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   background: var(--brand);
-  box-shadow: 0 0 12px var(--brand);
+  box-shadow: 0 0 10px var(--brand);
   animation: pulse 2s ease-in-out infinite;
 }
 
@@ -185,45 +209,182 @@ a:hover {
     opacity: 1;
   }
   50% {
-    opacity: 0.4;
-  }
-}
-
-.hero h1 {
-  margin: 0 0 1rem;
-  font-size: clamp(2.2rem, 5.5vw, 3.4rem);
-  line-height: 1.1;
-  letter-spacing: -0.03em;
-  font-weight: 700;
-}
-
-.hero h1 .cursor {
-  color: var(--brand);
-  animation: blink 1.1s step-end infinite;
-}
-
-@keyframes blink {
-  50% {
-    opacity: 0;
+    opacity: 0.45;
   }
 }
 
 .lead {
-  max-width: 42rem;
-  margin: 0 0 1.75rem;
+  margin: 0 auto 1.75rem;
+  max-width: 28rem;
   color: var(--muted);
-  font-size: 1.02rem;
-  line-height: 1.65;
-}
-
-.lead strong {
-  color: var(--text);
-  font-weight: 600;
+  font-size: 0.98rem;
+  line-height: 1.6;
 }
 
 .lead code {
   color: var(--brand-bright);
   font-size: 0.95em;
+}
+
+/* Install pill — Grok Build style with gold shimmer */
+.install-pill-wrap {
+  display: flex;
+  justify-content: center;
+  margin: 0 auto 0.9rem;
+  animation: pill-in 0.85s 0.12s ease-out both;
+}
+
+@keyframes pill-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.install-pill {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  max-width: 100%;
+  padding: 0.7rem 0.55rem 0.7rem 1.05rem;
+  border-radius: 999px;
+  background: #14120e;
+  border: 1px solid transparent;
+  /* animated gold edge */
+  background-clip: padding-box;
+  box-shadow:
+    0 0 0 1px rgba(201, 162, 39, 0.22),
+    0 8px 32px rgba(0, 0, 0, 0.45),
+    0 0 40px rgba(201, 162, 39, 0.08);
+}
+
+.install-pill::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    110deg,
+    transparent 20%,
+    rgba(201, 162, 39, 0.15) 35%,
+    rgba(224, 188, 60, 0.85) 50%,
+    rgba(201, 162, 39, 0.15) 65%,
+    transparent 80%
+  );
+  background-size: 220% 100%;
+  animation: shimmer 3.2s linear infinite;
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 120% 0;
+  }
+  100% {
+    background-position: -120% 0;
+  }
+}
+
+.install-code {
+  display: block;
+  margin: 0;
+  padding: 0;
+  font: inherit;
+  font-size: clamp(0.72rem, 2.4vw, 0.88rem);
+  white-space: nowrap;
+  overflow-x: auto;
+  max-width: min(72vw, 28rem);
+  background: transparent;
+  border: 0;
+  text-align: left;
+  scrollbar-width: none;
+}
+
+.install-code::-webkit-scrollbar {
+  display: none;
+}
+
+.tok-prompt {
+  color: var(--dim);
+  margin-right: 0.35rem;
+}
+.tok-cmd {
+  color: var(--text);
+}
+.tok-flag {
+  color: var(--muted);
+}
+.tok-url {
+  color: var(--brand-bright);
+}
+.tok-pipe {
+  color: var(--dim);
+  margin: 0 0.15rem;
+}
+.tok-shell {
+  color: var(--brand);
+  font-weight: 600;
+}
+
+.install-copy {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.15rem;
+  height: 2.15rem;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  transition: color 0.15s, background 0.15s, transform 0.15s;
+}
+
+.install-copy:hover {
+  color: var(--brand-bright);
+  background: var(--brand-soft);
+}
+
+.install-copy:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
+
+.install-copy .icon-check {
+  display: none;
+}
+
+.install-copy.is-copied {
+  color: var(--brand-bright);
+}
+
+.install-copy.is-copied .icon-copy {
+  display: none;
+}
+
+.install-copy.is-copied .icon-check {
+  display: block;
+}
+
+.hero-hint {
+  margin: 0;
+  color: var(--dim);
+  font-size: 0.8rem;
 }
 
 .scroll-cue {
@@ -234,12 +395,8 @@ a:hover {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.2rem;
   color: var(--dim);
   text-decoration: none;
-  font-size: 0.72rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
   transition: color 0.15s;
 }
 
@@ -249,7 +406,7 @@ a:hover {
 }
 
 .scroll-cue-arrow {
-  font-size: 1.1rem;
+  font-size: 1.15rem;
   animation: bounce 1.6s ease-in-out infinite;
   color: var(--brand);
 }
@@ -262,111 +419,6 @@ a:hover {
   50% {
     transform: translateY(5px);
   }
-}
-
-/* Terminal install window */
-.term {
-  max-width: 44rem;
-  margin: 0;
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  overflow: hidden;
-}
-
-.term-bar {
-  display: flex;
-  align-items: center;
-  gap: 0.45rem;
-  padding: 0.7rem 1rem;
-  background: #161310;
-  border-bottom: 1px solid var(--border);
-  color: var(--dim);
-  font-size: 0.75rem;
-}
-
-.dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-}
-
-.dot-r {
-  background: var(--red);
-}
-.dot-y {
-  background: var(--amber);
-}
-.dot-g {
-  background: var(--brand);
-}
-
-.term-body {
-  padding: 1.1rem 1.2rem 1.25rem;
-}
-
-.term-label {
-  color: var(--dim);
-  font-size: 0.75rem;
-  margin-bottom: 0.65rem;
-}
-
-.cmd-row {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.cmd {
-  flex: 1 1 16rem;
-  margin: 0;
-  padding: 0.85rem 1rem;
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  color: var(--brand-bright);
-  font: inherit;
-  font-size: 0.9rem;
-  overflow-x: auto;
-  white-space: nowrap;
-  text-align: left;
-}
-
-.cmd .prompt {
-  color: var(--dim);
-  user-select: none;
-}
-
-.meta-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem 1.25rem;
-  color: var(--dim);
-  font-size: 0.8rem;
-  margin-top: 1rem;
-}
-
-.meta-row span::before {
-  content: "› ";
-  color: var(--brand);
-}
-
-.alt-install {
-  margin-top: 0.85rem;
-  font-size: 0.8rem;
-  color: var(--dim);
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.alt-install code {
-  color: var(--muted);
-  font-size: 0.76rem;
-  word-break: break-all;
 }
 
 .btn {
@@ -706,17 +758,14 @@ section h2 {
     padding: 0.5rem 0 4rem;
   }
 
-  .hero-main {
-    text-align: left;
-  }
-
-  .cmd {
-    flex: 1 1 100%;
-    font-size: 0.75rem;
-  }
-
-  .btn-primary {
+  .install-pill {
     width: 100%;
+    border-radius: 14px;
+    padding: 0.75rem 0.5rem 0.75rem 0.85rem;
+  }
+
+  .install-code {
+    max-width: calc(100vw - 6.5rem);
   }
 
   .nav-links {
@@ -724,6 +773,6 @@ section h2 {
   }
 
   .lead {
-    font-size: 0.95rem;
+    font-size: 0.92rem;
   }
 }
