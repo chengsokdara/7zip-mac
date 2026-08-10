@@ -2,8 +2,7 @@
 #
 # 7zip-mac — Finder Services installer for 7-Zip (7zz)
 #
-# Installs a right-click Services action that creates a .7z archive next to
-# the selected file(s) or folder(s), using the 7zz CLI.
+# Installs right-click Services for compress / uncompress / open (browse in Finder).
 #
 # Usage:
 #   curl -fsSL https://chengsokdara.github.io/7z | bash
@@ -11,34 +10,43 @@
 #   bash install.sh
 #   bash install.sh --uninstall
 #   bash install.sh --force
-#   SEVENZIP_ACTION_NAME="Compress 7z" bash install.sh
 #
 set -euo pipefail
 
-ACTION_NAME="${SEVENZIP_ACTION_NAME:-Compress with 7-Zip}"
 SERVICES_DIR="${HOME}/Library/Services"
-WORKFLOW_DIR="${SERVICES_DIR}/${ACTION_NAME}.workflow"
-BUNDLE_ID="com.local.services.compressWith7Zip"
-
 FORCE=0
 UNINSTALL=0
+
+SERVICE_COMPRESS="Compress with 7-Zip"
+SERVICE_EXTRACT="Uncompress with 7-Zip"
+SERVICE_EXTRACT_FOLDER="Uncompress with 7-Zip to Folder"
+SERVICE_OPEN="Open with 7-Zip"
+
+ALL_SERVICES=(
+  "$SERVICE_COMPRESS"
+  "$SERVICE_EXTRACT"
+  "$SERVICE_EXTRACT_FOLDER"
+  "$SERVICE_OPEN"
+)
 
 usage() {
   cat <<EOF
 Usage: $(basename "$0") [options]
 
-Options:
-  --force       Overwrite an existing Quick Action without prompting
-  --uninstall   Remove the installed Quick Action
-  -h, --help    Show this help
+Installs Finder Services:
+  • ${SERVICE_COMPRESS}
+  • ${SERVICE_EXTRACT}
+  • ${SERVICE_EXTRACT_FOLDER}
+  • ${SERVICE_OPEN}
 
-Environment:
-  SEVENZIP_ACTION_NAME   Menu label / workflow name (default: Compress with 7-Zip)
+Options:
+  --force       Overwrite existing Services (re-run already updates)
+  --uninstall   Remove all 7zip-mac Finder Services
+  -h, --help    Show this help
 EOF
 }
 
 log()  { printf '==> %s\n' "$*" >&2; }
-warn() { printf 'warning: %s\n' "$*" >&2; }
 die()  { printf 'error: %s\n' "$*" >&2; exit 1; }
 
 while [[ $# -gt 0 ]]; do
@@ -49,31 +57,36 @@ while [[ $# -gt 0 ]]; do
     *) die "unknown option: $1 (try --help)" ;;
   esac
 done
+: "${FORCE}"
 
 [[ "$(uname -s)" == "Darwin" ]] || die "This installer only supports macOS."
 
-# ---------------------------------------------------------------------------
-# Uninstall
-# ---------------------------------------------------------------------------
-if [[ "$UNINSTALL" -eq 1 ]]; then
-  if [[ -d "$WORKFLOW_DIR" ]]; then
-    rm -rf "$WORKFLOW_DIR"
-    log "Removed: $WORKFLOW_DIR"
-  else
-    log "Nothing to remove (not installed): $WORKFLOW_DIR"
-  fi
-  # Refresh Services menu best-effort
+flush_services() {
   if [[ -x /System/Library/CoreServices/pbs ]]; then
     /System/Library/CoreServices/pbs -flush 2>/dev/null || true
   fi
   touch "$SERVICES_DIR" 2>/dev/null || true
+}
+
+if [[ "$UNINSTALL" -eq 1 ]]; then
+  mkdir -p "$SERVICES_DIR"
+  removed=0
+  for name in "${ALL_SERVICES[@]}"; do
+    wf="${SERVICES_DIR}/${name}.workflow"
+    if [[ -d "$wf" ]]; then
+      rm -rf "$wf"
+      log "Removed: $wf"
+      removed=1
+    fi
+  done
+  if [[ "$removed" -eq 0 ]]; then
+    log "Nothing to remove (no 7zip-mac Services found)."
+  fi
+  flush_services
   log "Done. You may need to relaunch Finder once for the menu to update."
   exit 0
 fi
 
-# ---------------------------------------------------------------------------
-# Locate or install 7zz
-# ---------------------------------------------------------------------------
 resolve_7zz() {
   export PATH="/opt/homebrew/bin:/usr/local/bin:${PATH:-/usr/bin:/bin:/usr/sbin:/sbin}"
   if command -v 7zz >/dev/null 2>&1; then
@@ -89,7 +102,6 @@ resolve_7zz() {
   return 1
 }
 
-# Sets SEVENZZ_PATH; logs go to stderr so callers never capture brew noise.
 ensure_7zz() {
   local path
   if path="$(resolve_7zz)"; then
@@ -118,22 +130,10 @@ Install Homebrew from https://brew.sh then re-run this script, or install 7-Zip 
 
 SEVENZZ_PATH=""
 ensure_7zz
-
-# ---------------------------------------------------------------------------
-# Existing install
-# ---------------------------------------------------------------------------
 mkdir -p "$SERVICES_DIR"
 
-if [[ -d "$WORKFLOW_DIR" ]]; then
-  log "Updating existing Quick Action: $WORKFLOW_DIR"
-  rm -rf "$WORKFLOW_DIR"
-fi
-
-# ---------------------------------------------------------------------------
-# Shell script embedded in the Quick Action
-# ---------------------------------------------------------------------------
-# Resolves 7zz at runtime so Apple Silicon / Intel Homebrew paths both work.
-read -r -d '' EMBEDDED_SCRIPT <<'EOS' || true
+# Shared helpers embedded in every workflow.
+read -r -d '' SHARED_HELPERS <<'EOS' || true
 export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"
 
 notify() {
@@ -159,11 +159,48 @@ find_7zz() {
   return 1
 }
 
-SEVENZZ="$(find_7zz || true)"
-if [[ -z "${SEVENZZ}" ]]; then
-  notify "__ACTION_NAME__" "7zz not found. Install with: brew install sevenzip"
-  exit 1
-fi
+strip_archive_ext() {
+  local n="$1"
+  local lower
+  lower="$(printf '%s' "$n" | tr '[:upper:]' '[:lower:]')"
+  case "$lower" in
+    *.tar.gz|*.tar.bz2|*.tar.xz|*.tar.zst)
+      n="${n%.*}"
+      printf '%s\n' "${n%.*}"
+      ;;
+    *.tgz)
+      printf '%s\n' "${n%.*}"
+      ;;
+    *.7z|*.zip|*.rar|*.tar|*.gz|*.bz2|*.xz|*.zst|*.lz4|*.cab|*.iso|*.dmg|*.001)
+      printf '%s\n' "${n%.*}"
+      ;;
+    *)
+      printf '%s\n' "$n"
+      ;;
+  esac
+}
+
+unique_path() {
+  local dir="$1" name="$2"
+  local out="${dir}/${name}" n=2
+  while [[ -e "$out" ]]; do
+    out="${dir}/${name}-${n}"
+    n=$((n + 1))
+  done
+  printf '%s\n' "$out"
+}
+
+require_7zz() {
+  SEVENZZ="$(find_7zz || true)"
+  if [[ -z "${SEVENZZ}" ]]; then
+    notify "__ACTION_NAME__" "7zz not found. Install with: brew install sevenzip"
+    exit 1
+  fi
+}
+EOS
+
+read -r -d '' BODY_COMPRESS <<'EOS' || true
+require_7zz
 
 failed=0
 for f in "$@"; do
@@ -188,23 +225,104 @@ for f in "$@"; do
   fi
 done
 
-if [[ "$failed" -ne 0 ]]; then
-  exit 1
-fi
+[[ "$failed" -eq 0 ]] || exit 1
 EOS
 
-# Inject the configured menu name into notification titles
-EMBEDDED_SCRIPT="${EMBEDDED_SCRIPT//__ACTION_NAME__/${ACTION_NAME}}"
+read -r -d '' BODY_EXTRACT <<'EOS' || true
+require_7zz
 
-# ---------------------------------------------------------------------------
-# Generate Automator workflow via Python plistlib
-# ---------------------------------------------------------------------------
-export INSTALL_ACTION_NAME="$ACTION_NAME"
-export INSTALL_BUNDLE_ID="$BUNDLE_ID"
-export INSTALL_WORKFLOW_DIR="$WORKFLOW_DIR"
-export INSTALL_EMBEDDED_SCRIPT="$EMBEDDED_SCRIPT"
+failed=0
+for f in "$@"; do
+  [[ -f "$f" ]] || continue
 
-python3 - <<'PY'
+  dir="$(dirname "$f")"
+  name="$(basename "$f")"
+
+  if ! (
+    cd "$dir" || exit 1
+    "$SEVENZZ" x -y -- "$name" >/dev/null
+  ); then
+    notify "__ACTION_NAME__" "Failed: ${name}"
+    failed=1
+  fi
+done
+
+[[ "$failed" -eq 0 ]] || exit 1
+EOS
+
+read -r -d '' BODY_EXTRACT_FOLDER <<'EOS' || true
+require_7zz
+
+failed=0
+for f in "$@"; do
+  [[ -f "$f" ]] || continue
+
+  dir="$(dirname "$f")"
+  name="$(basename "$f")"
+  base="$(strip_archive_ext "$name")"
+  out="$(unique_path "$dir" "$base")"
+
+  if ! "$SEVENZZ" x -y "-o${out}" -- "$f" >/dev/null; then
+    notify "__ACTION_NAME__" "Failed: ${name}"
+    failed=1
+    continue
+  fi
+done
+
+[[ "$failed" -eq 0 ]] || exit 1
+EOS
+
+read -r -d '' BODY_OPEN <<'EOS' || true
+require_7zz
+
+failed=0
+for f in "$@"; do
+  [[ -f "$f" ]] || continue
+
+  name="$(basename "$f")"
+  base="$(strip_archive_ext "$name")"
+
+  tmpdir="$(mktemp -d "${TMPDIR:-/tmp}/7zip-mac.XXXXXX")"
+  out="${tmpdir}/${base}"
+
+  if ! "$SEVENZZ" x -y "-o${out}" -- "$f" >/dev/null; then
+    notify "__ACTION_NAME__" "Failed: ${name}"
+    rm -rf "$tmpdir"
+    failed=1
+    continue
+  fi
+
+  open "$out"
+done
+
+[[ "$failed" -eq 0 ]] || exit 1
+EOS
+
+install_workflow() {
+  local action_name="$1"
+  local body="$2"
+  local slug="$3"
+  local workflow_dir="${SERVICES_DIR}/${action_name}.workflow"
+  local script
+
+  script="${SHARED_HELPERS}
+
+${body}"
+  script="${script//__ACTION_NAME__/${action_name}}"
+
+  if [[ -d "$workflow_dir" ]]; then
+    log "Updating: $workflow_dir"
+    rm -rf "$workflow_dir"
+  else
+    log "Installing: $workflow_dir"
+  fi
+
+  export INSTALL_ACTION_NAME="$action_name"
+  export INSTALL_BUNDLE_ID="com.local.services.7zipMac.${slug}"
+  export INSTALL_WORKFLOW_DIR="$workflow_dir"
+  export INSTALL_EMBEDDED_SCRIPT="$script"
+
+  python3 - <<'PY'
 import os
 import plistlib
 import uuid
@@ -218,14 +336,10 @@ script = os.environ["INSTALL_EMBEDDED_SCRIPT"]
 contents = workflow_dir / "Contents"
 contents.mkdir(parents=True, exist_ok=True)
 
-action_uuid = str(uuid.uuid4()).upper()
-input_uuid = str(uuid.uuid4()).upper()
-output_uuid = str(uuid.uuid4()).upper()
-
 info = {
     "CFBundleIdentifier": bundle_id,
     "CFBundleName": action_name,
-    "CFBundleShortVersionString": "1.0",
+    "CFBundleShortVersionString": "1.1",
     "NSServices": [
         {
             "NSMenuItem": {"default": action_name},
@@ -268,7 +382,7 @@ document = {
                 "ActionParameters": {
                     "COMMAND_STRING": script,
                     "CheckedForUserDefaultShell": True,
-                    "inputMethod": 1,  # as arguments
+                    "inputMethod": 1,
                     "shell": "/bin/zsh",
                     "source": "",
                 },
@@ -278,10 +392,10 @@ document = {
                 "CanShowWhenRun": True,
                 "Category": ["AMCategoryUtilities"],
                 "Class Name": "RunShellScriptAction",
-                "InputUUID": input_uuid,
+                "InputUUID": str(uuid.uuid4()).upper(),
                 "Keywords": ["Shell", "Script", "Command", "Run", "Unix", "7zip", "7z"],
-                "OutputUUID": output_uuid,
-                "UUID": action_uuid,
+                "OutputUUID": str(uuid.uuid4()).upper(),
+                "UUID": str(uuid.uuid4()).upper(),
                 "UnlocalizedApplications": ["Automator"],
                 "arguments": {
                     "0": {
@@ -340,45 +454,45 @@ with (contents / "Info.plist").open("wb") as f:
 
 with (contents / "document.wflow").open("wb") as f:
     plistlib.dump(document, f, fmt=plistlib.FMT_XML)
-
-print(workflow_dir)
 PY
 
-# ---------------------------------------------------------------------------
-# Validate + refresh
-# ---------------------------------------------------------------------------
-plutil -lint "${WORKFLOW_DIR}/Contents/Info.plist" >/dev/null
-plutil -lint "${WORKFLOW_DIR}/Contents/document.wflow" >/dev/null
+  plutil -lint "${workflow_dir}/Contents/Info.plist" >/dev/null
+  plutil -lint "${workflow_dir}/Contents/document.wflow" >/dev/null
+}
 
-if [[ -x /System/Library/CoreServices/pbs ]]; then
-  /System/Library/CoreServices/pbs -flush 2>/dev/null || true
-fi
-touch "$SERVICES_DIR" 2>/dev/null || true
+install_workflow "$SERVICE_COMPRESS" "$BODY_COMPRESS" "compress"
+install_workflow "$SERVICE_EXTRACT" "$BODY_EXTRACT" "extract"
+install_workflow "$SERVICE_EXTRACT_FOLDER" "$BODY_EXTRACT_FOLDER" "extractFolder"
+install_workflow "$SERVICE_OPEN" "$BODY_OPEN" "open"
+
+flush_services
 
 cat <<EOF
 
 Installed successfully.
 
-  Action:   ${ACTION_NAME}
-  Location: ${WORKFLOW_DIR}
-  7zz:      ${SEVENZZ_PATH}
+  7zz: ${SEVENZZ_PATH}
 
-How to use:
-  1. Open Finder
-  2. Right-click any file or folder
-  3. Choose Services → ${ACTION_NAME}
-     (on some older macOS versions: Quick Actions → ${ACTION_NAME})
-  4. A .7z archive appears next to the original
+  Services (Finder → right-click → Services):
+    • ${SERVICE_COMPRESS}
+        Create a .7z next to the selected file/folder
+    • ${SERVICE_EXTRACT}
+        Extract archive contents into the same folder
+    • ${SERVICE_EXTRACT_FOLDER}
+        Extract into a permanent folder named after the archive
+    • ${SERVICE_OPEN}
+        Extract to a temporary folder (\$TMPDIR) and open in Finder
+        (macOS may reclaim temp files later; use Uncompress for keeps)
 
-If the action does not appear yet:
+Location: ${SERVICES_DIR}
+
+If a service does not appear yet:
   • Relaunch Finder (Option-right-click the Finder Dock icon → Relaunch)
   • Or log out and back in
   • Check System Settings → Keyboard → Keyboard Shortcuts → Services
-    (or Privacy & Security → Extensions → Finder) and ensure it is enabled
 
 Uninstall:
-  bash $(basename "$0") --uninstall
-  # or:
-  # curl -fsSL https://chengsokdara.github.io/7z | bash -s -- --uninstall
+  curl -fsSL https://chengsokdara.github.io/7z | bash -s -- --uninstall
+  # or: bash install.sh --uninstall
 
 EOF

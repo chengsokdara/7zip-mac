@@ -1,6 +1,6 @@
 # 7zip-mac
 
-One-line installer that adds a Finder **Services** action to compress files and folders into `.7z` archives using the [7-Zip](https://www.7-zip.org/) CLI (`7zz`).
+One-line installer that adds Finder **Services** for [7-Zip](https://www.7-zip.org/) (`7zz`) on macOS: compress, uncompress, and open (browse in Finder).
 
 ## Install
 
@@ -10,7 +10,7 @@ curl -fsSL https://chengsokdara.github.io/7z | bash
 
 That short URL is a thin bootstrap on GitHub Pages; it always pulls the latest installer from this repo.
 
-**Canonical / fallback** (same installer, longer URL):
+**Canonical / fallback:**
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/chengsokdara/7zip-mac/main/install.sh | bash
@@ -28,16 +28,14 @@ What the installer does:
 
 1. Checks that you are on macOS
 2. Finds `7zz`, or runs `brew install sevenzip` if it is missing
-3. Generates an Automator service at  
-   `~/Library/Services/Compress with 7-Zip.workflow`
+3. Installs four Automator Services under `~/Library/Services/`
 4. Flushes the Services cache (best effort)
 
 ### Options
 
 ```bash
 bash install.sh --force       # overwrite (re-run already updates)
-bash install.sh --uninstall   # remove the Finder service
-SEVENZIP_ACTION_NAME="Compress 7z" bash install.sh   # custom menu name
+bash install.sh --uninstall   # remove all 7zip-mac Services
 ```
 
 Or:
@@ -46,15 +44,27 @@ Or:
 bash uninstall.sh
 ```
 
-## Usage
+## Services
 
-1. Open **Finder**
-2. Right-click any file or folder
-3. Choose **Services → Compress with 7-Zip**  
-   (on some older macOS versions this may appear under **Quick Actions**)
-4. A `.7z` archive appears next to the original item
+Right-click in Finder → **Services** (on some older macOS versions: **Quick Actions**).
 
-If `Name.7z` already exists, the action creates `Name-2.7z`, `Name-3.7z`, and so on.
+| Service | What it does |
+|---------|----------------|
+| **Compress with 7-Zip** | Creates `Name.7z` next to the selected file or folder (`Name-2.7z` if needed) |
+| **Uncompress with 7-Zip** | Extracts into the **same folder** as the archive (full paths) |
+| **Uncompress with 7-Zip to Folder** | Extracts into a **permanent** folder named after the archive (e.g. `Photos.7z` → `Photos/`) |
+| **Open with 7-Zip** | Extracts into a **temporary** folder under macOS `$TMPDIR` and opens it in Finder |
+
+### Open with 7-Zip (browse)
+
+There is no official 7-Zip GUI on macOS (Homebrew ships the `7zz` CLI only). **Open with 7-Zip** is the lightweight explore path:
+
+1. Extract to `$TMPDIR/7zip-mac.XXXXXX/<archive-name>/`
+2. Open that folder in Finder
+
+macOS may reclaim temp files later (disk pressure, reboot, system maintenance). For permanent extracts, use **Uncompress with 7-Zip** or **… to Folder**.
+
+True browse-without-extract apps (not installed by us): Keka, BetterZip, The Unarchiver, etc.
 
 ## Requirements
 
@@ -64,33 +74,30 @@ If `Name.7z` already exists, the action creates `Name-2.7z`, `Name-3.7z`, and so
 
 ## Troubleshooting
 
-### The action does not appear in the menu
+### Services do not appear in the menu
 
-1. Look under **Services**, not only Quick Actions (newer macOS often lists custom Automator actions there)
+1. Look under **Services**, not only Quick Actions (common on newer macOS)
 2. Relaunch Finder: Option-right-click the Finder Dock icon → **Relaunch**
 3. Log out and back in (or reboot) once
 4. Open **System Settings → Keyboard → Keyboard Shortcuts → Services**  
-   and ensure **Compress with 7-Zip** is enabled  
-   (on some versions: **Privacy & Security → Extensions → Finder**)
+   and ensure the 7-Zip items are enabled
 
-### Compression fails / notification “7zz not found”
+### Compression / extract fails / “7zz not found”
 
 ```bash
 which 7zz
 brew install sevenzip
 ```
 
-Then re-run the install command if you want to refresh the action.
+Then re-run the install command if you want to refresh the Services.
 
 ### Wrong architecture path (Apple Silicon vs Intel)
 
-The service resolves `7zz` at runtime from:
+Each service resolves `7zz` at runtime from:
 
 - your `PATH`
 - `/opt/homebrew/bin/7zz` (Apple Silicon Homebrew)
 - `/usr/local/bin/7zz` (Intel Homebrew)
-
-You do not need to hardcode the path.
 
 ## Uninstall
 
@@ -103,20 +110,21 @@ bash install.sh --uninstall
 bash uninstall.sh
 ```
 
-This only removes the Finder service. It does **not** uninstall Homebrew or the `sevenzip` formula.
+This only removes the Finder Services. It does **not** uninstall Homebrew or the `sevenzip` formula.
 
 ## How it works
 
-The installer builds a standard Automator **Service / Quick Action** bundle:
+The installer builds standard Automator **Service** bundles:
 
 ```
-~/Library/Services/Compress with 7-Zip.workflow/
-  Contents/
-    Info.plist      # Finder + public.item (files/folders)
-    document.wflow  # Run Shell Script → 7zz a …
+~/Library/Services/
+  Compress with 7-Zip.workflow/
+  Uncompress with 7-Zip.workflow/
+  Uncompress with 7-Zip to Folder.workflow/
+  Open with 7-Zip.workflow/
 ```
 
-No Automator GUI steps are required. Re-running the installer updates the action in place.
+Each bundle is a **Run Shell Script** action that calls `7zz`. No Automator GUI steps are required. Re-running the installer updates all actions in place.
 
 ## License
 
