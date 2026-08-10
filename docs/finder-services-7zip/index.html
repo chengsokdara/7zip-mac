@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Finder Services for 7-Zip on Mac: Right-Click Compress &amp; Extract | 7zip-mac</title>
+    <meta name="description" content="Use Finder Services (or Quick Actions) to compress and extract 7z on Mac. Where the menu is, how to enable it, and what each 7zip-mac action does." />
+    <meta name="keywords" content="finder services 7zip, right click compress 7z mac, quick actions 7z macOS, compress with 7-zip finder" />
+    <meta name="author" content="Cheng Sokdara" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <link rel="canonical" href="https://chengsokdara.github.io/7zip-mac/finder-services-7zip/" />
+
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="7zip-mac" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:url" content="https://chengsokdara.github.io/7zip-mac/finder-services-7zip/" />
+    <meta property="og:title" content="Finder Services for 7-Zip on Mac: Right-Click Compress &amp; Extract" />
+    <meta property="og:description" content="Use Finder Services (or Quick Actions) to compress and extract 7z on Mac. Where the menu is, how to enable it, and what each 7zip-mac action does." />
+    <meta property="og:image" content="https://chengsokdara.github.io/7zip-mac/og.png" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Finder Services for 7-Zip on Mac: Right-Click Compress &amp; Extract" />
+    <meta name="twitter:description" content="Use Finder Services (or Quick Actions) to compress and extract 7z on Mac. Where the menu is, how to enable it, and what each 7zip-mac action does." />
+    <meta name="twitter:image" content="https://chengsokdara.github.io/7zip-mac/og.png" />
+
+    <meta name="theme-color" content="#0d1117" />
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="../styles.css" />
+
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "https://chengsokdara.github.io/7zip-mac/finder-services-7zip/#webpage",
+      "url": "https://chengsokdara.github.io/7zip-mac/finder-services-7zip/",
+      "name": "Finder Services for 7-Zip on Mac: Right-Click Compress & Extract",
+      "description": "Use Finder Services (or Quick Actions) to compress and extract 7z on Mac. Where the menu is, how to enable it, and what each 7zip-mac action does.",
+      "isPartOf": {
+        "@id": "https://chengsokdara.github.io/7zip-mac/#website"
+      },
+      "dateModified": "2026-08-10",
+      "inLanguage": "en"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "7-Zip for Mac",
+          "item": "https://chengsokdara.github.io/7zip-mac/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Finder Services for 7-Zip on Mac",
+          "item": "https://chengsokdara.github.io/7zip-mac/finder-services-7zip/"
+        }
+      ]
+    }
+  ]
+}
+    </script>
+  </head>
+  <body>
+    <a class="skip" href="#content">Skip to content</a>
+    <div class="page-shell">
+      <header class="nav">
+        <div class="wrap nav-inner">
+          <a class="brand" href="../" aria-label="7zip-mac home">
+            <img class="brand-mark" src="../favicon.svg" width="28" height="28" alt="" />
+            <span>7zip-mac</span>
+          </a>
+          <nav class="nav-links" aria-label="Primary">
+            <a href="../#install">Install</a>
+            <a href="../guides/">Guides</a>
+            <a href="../faq/">FAQ</a>
+            <a href="../#support">Support</a>
+            <a data-link="repo" href="https://github.com/chengsokdara/7zip-mac" rel="noopener">GitHub</a>
+          </nav>
+        </div>
+      </header>
+
+      <main id="content">
+        <article class="wrap">
+          <nav class="breadcrumb" aria-label="Breadcrumb">
+            <a href="../">Home</a>
+            <span aria-hidden="true">/</span>
+            <a href="../guides/">Guides</a>
+            <span aria-hidden="true">/</span>
+            <span>Finder Services for 7-Zip on Mac</span>
+          </nav>
+
+          <header class="article-header">
+            <h1>Finder Services for 7-Zip on Mac</h1>
+            <p class="dek">After installing 7zip-mac, right-click workflows live under Services. Here is where to find them, how to enable them, and what each action does.</p>
+            <p class="article-meta">Updated 2026-08-10 · Free &amp; open source</p>
+          </header>
+
+          <div class="prose">
+            
+      <h2>Where is Compress with 7-Zip?</h2>
+      <ol>
+        <li>Select files or folders in Finder.</li>
+        <li>Right-click (or Control-click).</li>
+        <li>Open <strong>Services</strong> (on some older macOS: <strong>Quick Actions</strong>).</li>
+        <li>Choose <strong>Compress with 7-Zip</strong>.</li>
+      </ol>
+      <p>
+        A <code>.7z</code> archive is created next to the selection
+        (<code>Name-2.7z</code> if the name already exists).
+      </p>
+
+      <h2>The four Services</h2>
+      <ul>
+        <li><strong>Compress with 7-Zip</strong> — create <code>.7z</code> next to selection.</li>
+        <li><strong>Uncompress with 7-Zip Here</strong> — extract into the archive’s folder.</li>
+        <li><strong>Uncompress with 7-Zip to Folder</strong> — extract into a named folder.</li>
+        <li><strong>Open with 7-Zip</strong> — temp extract + Finder browse.</li>
+      </ul>
+
+      <h2>If Services do not appear</h2>
+      <ol>
+        <li>Re-run the <a href="../install-7zip-mac/">install command</a>.</li>
+        <li>Relaunch Finder.</li>
+        <li>
+          System Settings → Keyboard → Keyboard Shortcuts → <strong>Services</strong> —
+          enable the 7-Zip entries under Files and Folders.
+        </li>
+        <li>Log out / reboot once after first install on stubborn machines.</li>
+      </ol>
+
+      <h2>How this differs from Windows 7-Zip</h2>
+      <p>
+        On Windows, 7-Zip adds a rich context menu and a GUI. On Mac, Homebrew provides
+        <code>7zz</code> only. 7zip-mac recreates the most useful context actions as Automator
+        Services. There is no full 7-Zip File Manager window; Open uses a temporary Finder folder.
+      </p>
+
+      <div class="callout">
+        <p class="callout-title">Install</p>
+        <div class="callout-install">
+          <code>curl -fsSL https://chengsokdara.github.io/7z | bash</code>
+          <button type="button" class="btn btn-ghost" data-copy="short">Copy</button>
+        </div>
+      </div>
+    
+            
+  <aside class="related" aria-labelledby="related-title">
+    <h2 id="related-title">More guides</h2>
+    <ul class="related-list">
+      <li><a href="../open-7z-on-mac/"><strong>Open 7z on Mac</strong> Extract and browse archives</a></li>
+      <li><a href="../install-7zip-mac/"><strong>Install 7-Zip on Mac</strong> One-line Finder setup</a></li>
+      <li><a href="../finder-services-7zip/"><strong>Finder Services</strong> Right-click compress &amp; extract</a></li>
+      <li><a href="../7zip-vs-keka/"><strong>vs Keka</strong> GUI archiver comparison</a></li>
+      <li><a href="../faq/"><strong>FAQ</strong> Common questions</a></li>
+      <li><a href="../guides/"><strong>All guides</strong> Full documentation index</a></li>
+    </ul>
+  </aside>
+
+          </div>
+        </article>
+      </main>
+
+      <footer class="footer">
+        <div class="wrap footer-inner">
+          <div>
+            <div>
+              <strong style="color: var(--muted)">7zip-mac</strong>
+              · MIT · <span id="year">2026</span>
+            </div>
+            <div>
+              <a data-link="repo" href="https://github.com/chengsokdara/7zip-mac" rel="noopener">Source</a>
+              ·
+              <a href="../">7-Zip for Mac</a>
+              ·
+              <a href="https://www.7-zip.org/" rel="noopener noreferrer">7-Zip.org</a>
+            </div>
+          </div>
+          <div class="disclaimer">
+            Not affiliated with 7-Zip.org or Igor Pavlov. This project installs Finder Services that call the
+            7-Zip CLI (<code>7zz</code>) from Homebrew.
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <script src="../site-config.js"></script>
+    <script src="../main.js"></script>
+  </body>
+</html>

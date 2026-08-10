@@ -1,8 +1,10 @@
 # 7zip-mac
 
-**Website:** [7-Zip for Mac](https://chengsokdara.github.io/7zip-mac/): terminal-style landing page, install one-liner, FAQ.
+**7-Zip for Mac** — free Finder Services for [7-Zip](https://www.7-zip.org/) (`7zz`) on macOS.
 
-One-line installer that adds Finder **Services** for [7-Zip](https://www.7-zip.org/) (`7zz`) on macOS: compress, uncompress, and open (browse in Finder).
+**Website:** [7-Zip for Mac](https://chengsokdara.github.io/7zip-mac/) · [Guides](https://chengsokdara.github.io/7zip-mac/guides/) · [Open 7z on Mac](https://chengsokdara.github.io/7zip-mac/open-7z-on-mac/) · [Install](https://chengsokdara.github.io/7zip-mac/install-7zip-mac/)
+
+One-line installer that adds Finder **Services** to compress, uncompress, and open (browse in Finder) `.7z` archives.
 
 ## Install
 

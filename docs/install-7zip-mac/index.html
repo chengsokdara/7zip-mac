@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Install 7-Zip on Mac: One-Line Finder Setup | 7zip-mac</title>
+    <meta name="description" content="Install 7-Zip on Mac with a single Terminal command. Adds Finder Services for compress, extract, and open .7z using official sevenzip (7zz) via Homebrew." />
+    <meta name="keywords" content="install 7zip mac, install 7-zip macOS, brew sevenzip, 7zz mac, 7-zip finder install" />
+    <meta name="author" content="Cheng Sokdara" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <link rel="canonical" href="https://chengsokdara.github.io/7zip-mac/install-7zip-mac/" />
+
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="7zip-mac" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:url" content="https://chengsokdara.github.io/7zip-mac/install-7zip-mac/" />
+    <meta property="og:title" content="Install 7-Zip on Mac: One-Line Finder Setup" />
+    <meta property="og:description" content="Install 7-Zip on Mac with a single Terminal command. Adds Finder Services for compress, extract, and open .7z using official sevenzip (7zz) via Homebrew." />
+    <meta property="og:image" content="https://chengsokdara.github.io/7zip-mac/og.png" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Install 7-Zip on Mac: One-Line Finder Setup" />
+    <meta name="twitter:description" content="Install 7-Zip on Mac with a single Terminal command. Adds Finder Services for compress, extract, and open .7z using official sevenzip (7zz) via Homebrew." />
+    <meta name="twitter:image" content="https://chengsokdara.github.io/7zip-mac/og.png" />
+
+    <meta name="theme-color" content="#0d1117" />
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="../styles.css" />
+
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "https://chengsokdara.github.io/7zip-mac/install-7zip-mac/#webpage",
+      "url": "https://chengsokdara.github.io/7zip-mac/install-7zip-mac/",
+      "name": "Install 7-Zip on Mac: One-Line Finder Setup",
+      "description": "Install 7-Zip on Mac with a single Terminal command. Adds Finder Services for compress, extract, and open .7z using official sevenzip (7zz) via Homebrew.",
+      "isPartOf": {
+        "@id": "https://chengsokdara.github.io/7zip-mac/#website"
+      },
+      "dateModified": "2026-08-10",
+      "inLanguage": "en"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "7-Zip for Mac",
+          "item": "https://chengsokdara.github.io/7zip-mac/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Install 7-Zip on Mac",
+          "item": "https://chengsokdara.github.io/7zip-mac/install-7zip-mac/"
+        }
+      ]
+    },
+    {
+      "@type": "HowTo",
+      "name": "Install 7-Zip for Mac with Finder Services",
+      "description": "Install 7-Zip on Mac with a single Terminal command. Adds Finder Services for compress, extract, and open .7z using official sevenzip (7zz) via Homebrew.",
+      "totalTime": "PT3M",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "name": "Open Terminal",
+          "text": "Open the Terminal app on macOS."
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Run the installer",
+          "text": "Paste: curl -fsSL https://chengsokdara.github.io/7z | bash"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Use Services in Finder",
+          "text": "Right-click files or archives and choose Compress or Uncompress with 7-Zip."
+        }
+      ]
+    }
+  ]
+}
+    </script>
+  </head>
+  <body>
+    <a class="skip" href="#content">Skip to content</a>
+    <div class="page-shell">
+      <header class="nav">
+        <div class="wrap nav-inner">
+          <a class="brand" href="../" aria-label="7zip-mac home">
+            <img class="brand-mark" src="../favicon.svg" width="28" height="28" alt="" />
+            <span>7zip-mac</span>
+          </a>
+          <nav class="nav-links" aria-label="Primary">
+            <a href="../#install">Install</a>
+            <a href="../guides/">Guides</a>
+            <a href="../faq/">FAQ</a>
+            <a href="../#support">Support</a>
+            <a data-link="repo" href="https://github.com/chengsokdara/7zip-mac" rel="noopener">GitHub</a>
+          </nav>
+        </div>
+      </header>
+
+      <main id="content">
+        <article class="wrap">
+          <nav class="breadcrumb" aria-label="Breadcrumb">
+            <a href="../">Home</a>
+            <span aria-hidden="true">/</span>
+            <a href="../guides/">Guides</a>
+            <span aria-hidden="true">/</span>
+            <span>Install 7-Zip on Mac</span>
+          </nav>
+
+          <header class="article-header">
+            <h1>Install 7-Zip on Mac</h1>
+            <p class="dek">One command installs the official 7-Zip CLI when needed and adds right-click Finder Services so you can compress and extract .7z without a separate GUI app.</p>
+            <p class="article-meta">Updated 2026-08-10 · Free &amp; open source</p>
+          </header>
+
+          <div class="prose">
+            
+      <nav class="toc" aria-label="On this page">
+        <p>On this page</p>
+        <ol>
+          <li><a href="#requirements">Requirements</a></li>
+          <li><a href="#one-liner">One-line install</a></li>
+          <li><a href="#what">What gets installed</a></li>
+          <li><a href="#verify">Verify it works</a></li>
+          <li><a href="#manual">Manual / advanced</a></li>
+          <li><a href="#uninstall">Uninstall</a></li>
+        </ol>
+      </nav>
+
+      <h2 id="requirements">Requirements</h2>
+      <ul>
+        <li>macOS (Apple Silicon or Intel)</li>
+        <li>
+          <a href="https://brew.sh" rel="noopener noreferrer">Homebrew</a> if
+          <code>7zz</code> is not already on your <code>PATH</code>
+        </li>
+        <li>Permission to write to <code>~/Library/Services</code></li>
+      </ul>
+
+      <h2 id="one-liner">One-line install</h2>
+      <div class="callout">
+        <p class="callout-title">Recommended</p>
+        <div class="callout-install">
+          <code>curl -fsSL https://chengsokdara.github.io/7z | bash</code>
+          <button type="button" class="btn btn-ghost" data-copy="short">Copy</button>
+        </div>
+      </div>
+      <p>Canonical fallback (always pulls latest script from GitHub):</p>
+      <pre><code>curl -fsSL https://raw.githubusercontent.com/chengsokdara/7zip-mac/main/install.sh | bash</code></pre>
+      <p>
+        Or clone and run locally if you want to inspect the script first (recommended for
+        security-conscious installs):
+      </p>
+      <pre><code>git clone https://github.com/chengsokdara/7zip-mac.git
+cd 7zip-mac
+less install.sh   # review
+bash install.sh</code></pre>
+
+      <h2 id="what">What gets installed</h2>
+      <ol>
+        <li>Checks that you are on macOS.</li>
+        <li>Finds <code>7zz</code>, or runs <code>brew install sevenzip</code> if missing.</li>
+        <li>
+          Installs four Automator Service bundles under <code>~/Library/Services/</code>:
+          Compress, Uncompress Here, Uncompress to Folder, Open with 7-Zip.
+        </li>
+        <li>Flushes the Services cache (best effort).</li>
+      </ol>
+      <p>
+        7zip-mac does <strong>not</strong> ship a Windows-style 7-Zip GUI. It wraps the official
+        CLI so Finder can call it. Not affiliated with 7-zip.org.
+      </p>
+
+      <h2 id="verify">Verify it works</h2>
+      <ol>
+        <li>Confirm CLI: <code>which 7zz</code> and <code>7zz --help</code>.</li>
+        <li>In Finder, right-click any file → <strong>Services</strong> → <strong>Compress with 7-Zip</strong>.</li>
+        <li>Right-click the new <code>.7z</code> → <strong>Open with 7-Zip</strong> or Uncompress.</li>
+      </ol>
+
+      <h2 id="manual">Manual / advanced</h2>
+      <pre><code>bash install.sh --force       # overwrite Services
+bash install.sh --uninstall   # remove Services only</code></pre>
+      <p>
+        Services resolve <code>7zz</code> at runtime from your <code>PATH</code>,
+        <code>/opt/homebrew/bin/7zz</code> (Apple Silicon), or <code>/usr/local/bin/7zz</code> (Intel).
+      </p>
+
+      <h2 id="uninstall">Uninstall</h2>
+      <p>
+        See the full guide:
+        <a href="../uninstall/">Uninstall 7zip-mac</a>. Short version:
+      </p>
+      <pre><code>curl -fsSL https://chengsokdara.github.io/7z | bash -s -- --uninstall</code></pre>
+    
+            
+  <aside class="related" aria-labelledby="related-title">
+    <h2 id="related-title">More guides</h2>
+    <ul class="related-list">
+      <li><a href="../open-7z-on-mac/"><strong>Open 7z on Mac</strong> Extract and browse archives</a></li>
+      <li><a href="../install-7zip-mac/"><strong>Install 7-Zip on Mac</strong> One-line Finder setup</a></li>
+      <li><a href="../finder-services-7zip/"><strong>Finder Services</strong> Right-click compress &amp; extract</a></li>
+      <li><a href="../7zip-vs-keka/"><strong>vs Keka</strong> GUI archiver comparison</a></li>
+      <li><a href="../faq/"><strong>FAQ</strong> Common questions</a></li>
+      <li><a href="../guides/"><strong>All guides</strong> Full documentation index</a></li>
+    </ul>
+  </aside>
+
+          </div>
+        </article>
+      </main>
+
+      <footer class="footer">
+        <div class="wrap footer-inner">
+          <div>
+            <div>
+              <strong style="color: var(--muted)">7zip-mac</strong>
+              · MIT · <span id="year">2026</span>
+            </div>
+            <div>
+              <a data-link="repo" href="https://github.com/chengsokdara/7zip-mac" rel="noopener">Source</a>
+              ·
+              <a href="../">7-Zip for Mac</a>
+              ·
+              <a href="https://www.7-zip.org/" rel="noopener noreferrer">7-Zip.org</a>
+            </div>
+          </div>
+          <div class="disclaimer">
+            Not affiliated with 7-Zip.org or Igor Pavlov. This project installs Finder Services that call the
+            7-Zip CLI (<code>7zz</code>) from Homebrew.
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <script src="../site-config.js"></script>
+    <script src="../main.js"></script>
+  </body>
+</html>

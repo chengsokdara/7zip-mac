@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Uninstall 7zip-mac: Remove Finder 7-Zip Services | 7zip-mac</title>
+    <meta name="description" content="How to uninstall 7zip-mac on macOS. Removes Finder Services only; does not remove Homebrew or the sevenzip formula unless you choose to." />
+    <meta name="keywords" content="uninstall 7zip mac, remove 7-zip finder services, uninstall sevenzip macOS" />
+    <meta name="author" content="Cheng Sokdara" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <link rel="canonical" href="https://chengsokdara.github.io/7zip-mac/uninstall/" />
+
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="7zip-mac" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:url" content="https://chengsokdara.github.io/7zip-mac/uninstall/" />
+    <meta property="og:title" content="Uninstall 7zip-mac: Remove Finder 7-Zip Services" />
+    <meta property="og:description" content="How to uninstall 7zip-mac on macOS. Removes Finder Services only; does not remove Homebrew or the sevenzip formula unless you choose to." />
+    <meta property="og:image" content="https://chengsokdara.github.io/7zip-mac/og.png" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Uninstall 7zip-mac: Remove Finder 7-Zip Services" />
+    <meta name="twitter:description" content="How to uninstall 7zip-mac on macOS. Removes Finder Services only; does not remove Homebrew or the sevenzip formula unless you choose to." />
+    <meta name="twitter:image" content="https://chengsokdara.github.io/7zip-mac/og.png" />
+
+    <meta name="theme-color" content="#0d1117" />
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="../styles.css" />
+
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "https://chengsokdara.github.io/7zip-mac/uninstall/#webpage",
+      "url": "https://chengsokdara.github.io/7zip-mac/uninstall/",
+      "name": "Uninstall 7zip-mac: Remove Finder 7-Zip Services",
+      "description": "How to uninstall 7zip-mac on macOS. Removes Finder Services only; does not remove Homebrew or the sevenzip formula unless you choose to.",
+      "isPartOf": {
+        "@id": "https://chengsokdara.github.io/7zip-mac/#website"
+      },
+      "dateModified": "2026-08-10",
+      "inLanguage": "en"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "7-Zip for Mac",
+          "item": "https://chengsokdara.github.io/7zip-mac/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Uninstall 7zip-mac",
+          "item": "https://chengsokdara.github.io/7zip-mac/uninstall/"
+        }
+      ]
+    }
+  ]
+}
+    </script>
+  </head>
+  <body>
+    <a class="skip" href="#content">Skip to content</a>
+    <div class="page-shell">
+      <header class="nav">
+        <div class="wrap nav-inner">
+          <a class="brand" href="../" aria-label="7zip-mac home">
+            <img class="brand-mark" src="../favicon.svg" width="28" height="28" alt="" />
+            <span>7zip-mac</span>
+          </a>
+          <nav class="nav-links" aria-label="Primary">
+            <a href="../#install">Install</a>
+            <a href="../guides/">Guides</a>
+            <a href="../faq/">FAQ</a>
+            <a href="../#support">Support</a>
+            <a data-link="repo" href="https://github.com/chengsokdara/7zip-mac" rel="noopener">GitHub</a>
+          </nav>
+        </div>
+      </header>
+
+      <main id="content">
+        <article class="wrap">
+          <nav class="breadcrumb" aria-label="Breadcrumb">
+            <a href="../">Home</a>
+            <span aria-hidden="true">/</span>
+            <a href="../guides/">Guides</a>
+            <span aria-hidden="true">/</span>
+            <span>Uninstall 7zip-mac</span>
+          </nav>
+
+          <header class="article-header">
+            <h1>Uninstall 7zip-mac</h1>
+            <p class="dek">Remove the Finder Services installed by 7zip-mac in one command. Optional steps if you also want to remove the sevenzip Homebrew package.</p>
+            <p class="article-meta">Updated 2026-08-10 · Free &amp; open source</p>
+          </header>
+
+          <div class="prose">
+            
+      <h2>Remove Finder Services only</h2>
+      <div class="callout">
+        <p class="callout-title">One-liner</p>
+        <div class="callout-install">
+          <code>curl -fsSL https://chengsokdara.github.io/7z | bash -s -- --uninstall</code>
+          <button type="button" class="btn btn-ghost" data-copy="uninstall">Copy</button>
+        </div>
+      </div>
+      <p>Or from a clone:</p>
+      <pre><code>bash install.sh --uninstall
+# or
+bash uninstall.sh</code></pre>
+      <p>
+        This deletes the Automator workflows under <code>~/Library/Services</code> that 7zip-mac
+        created. It does <strong>not</strong> uninstall Homebrew or <code>sevenzip</code>.
+      </p>
+
+      <h2>Optional: remove the 7zz binary (Homebrew)</h2>
+      <pre><code>brew uninstall sevenzip</code></pre>
+      <p>Only do this if nothing else on your system needs <code>7zz</code>.</p>
+
+      <h2>Confirm removal</h2>
+      <ul>
+        <li>Right-click in Finder → Services: 7-Zip items should be gone.</li>
+        <li><code>ls ~/Library/Services | grep -i 7-Zip</code> should print nothing related.</li>
+      </ul>
+    
+            
+  <aside class="related" aria-labelledby="related-title">
+    <h2 id="related-title">More guides</h2>
+    <ul class="related-list">
+      <li><a href="../open-7z-on-mac/"><strong>Open 7z on Mac</strong> Extract and browse archives</a></li>
+      <li><a href="../install-7zip-mac/"><strong>Install 7-Zip on Mac</strong> One-line Finder setup</a></li>
+      <li><a href="../finder-services-7zip/"><strong>Finder Services</strong> Right-click compress &amp; extract</a></li>
+      <li><a href="../7zip-vs-keka/"><strong>vs Keka</strong> GUI archiver comparison</a></li>
+      <li><a href="../faq/"><strong>FAQ</strong> Common questions</a></li>
+      <li><a href="../guides/"><strong>All guides</strong> Full documentation index</a></li>
+    </ul>
+  </aside>
+
+          </div>
+        </article>
+      </main>
+
+      <footer class="footer">
+        <div class="wrap footer-inner">
+          <div>
+            <div>
+              <strong style="color: var(--muted)">7zip-mac</strong>
+              · MIT · <span id="year">2026</span>
+            </div>
+            <div>
+              <a data-link="repo" href="https://github.com/chengsokdara/7zip-mac" rel="noopener">Source</a>
+              ·
+              <a href="../">7-Zip for Mac</a>
+              ·
+              <a href="https://www.7-zip.org/" rel="noopener noreferrer">7-Zip.org</a>
+            </div>
+          </div>
+          <div class="disclaimer">
+            Not affiliated with 7-Zip.org or Igor Pavlov. This project installs Finder Services that call the
+            7-Zip CLI (<code>7zz</code>) from Homebrew.
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <script src="../site-config.js"></script>
+    <script src="../main.js"></script>
+  </body>
+</html>

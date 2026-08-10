@@ -46,7 +46,15 @@
     <link
       href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&display=swap"
       rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
     />
+    <noscript>
+      <link
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+      />
+    </noscript>
     <link rel="stylesheet" href="styles.css" />
 
     <script type="application/ld+json">
@@ -163,6 +171,34 @@
                 }
               }
             ]
+          },
+          {
+            "@type": "HowTo",
+            "@id": "https://chengsokdara.github.io/7zip-mac/#howto-install",
+            "name": "How to install 7-Zip for Mac with Finder Services",
+            "description": "Install official 7zz via Homebrew if needed and add Finder Services to compress, extract, and open .7z archives.",
+            "totalTime": "PT3M",
+            "tool": [{ "@type": "HowToTool", "name": "Terminal" }],
+            "step": [
+              {
+                "@type": "HowToStep",
+                "position": 1,
+                "name": "Paste the install command",
+                "text": "Open Terminal and run: curl -fsSL https://chengsokdara.github.io/7z | bash"
+              },
+              {
+                "@type": "HowToStep",
+                "position": 2,
+                "name": "Right-click in Finder",
+                "text": "Select files or a .7z archive, then open Services and choose Compress, Uncompress, or Open with 7-Zip."
+              },
+              {
+                "@type": "HowToStep",
+                "position": 3,
+                "name": "Work with .7z natively",
+                "text": "Create high-ratio .7z archives and extract them on macOS using the same 7-Zip engine Windows users know."
+              }
+            ]
           }
         ]
       }
@@ -182,6 +218,7 @@
           <nav class="nav-links" aria-label="Primary">
             <a href="#install">Install</a>
             <a href="#features">Features</a>
+            <a href="./guides/">Guides</a>
             <a href="#faq">FAQ</a>
             <a href="#support">Support</a>
             <a data-link="repo" href="https://github.com/chengsokdara/7zip-mac" rel="noopener">GitHub</a>
@@ -354,11 +391,54 @@
         </div>
       </section>
 
+      <section id="guides" class="wrap" aria-labelledby="guides-title">
+        <p class="section-kicker">// guides</p>
+        <h2 id="guides-title">Guides: open 7z, install, compare</h2>
+        <p class="section-lead">
+          In-depth pages for people searching <strong>7zip for Mac</strong>, how to open .7z files,
+          and how 7zip-mac compares to popular archive apps.
+        </p>
+        <div class="guides-grid">
+          <a class="guide-card" href="./open-7z-on-mac/">
+            <div class="path">how-to</div>
+            <h3>How to open 7z files on Mac</h3>
+            <p>Extract and browse .7z when Archive Utility will not open them.</p>
+          </a>
+          <a class="guide-card" href="./install-7zip-mac/">
+            <div class="path">install</div>
+            <h3>Install 7-Zip on Mac</h3>
+            <p>One-line setup, verify Services, manual options.</p>
+          </a>
+          <a class="guide-card" href="./finder-services-7zip/">
+            <div class="path">finder</div>
+            <h3>Finder Services for 7-Zip</h3>
+            <p>Where the right-click menu is and how to enable it.</p>
+          </a>
+          <a class="guide-card" href="./7zip-vs-keka/">
+            <div class="path">compare</div>
+            <h3>7zip-mac vs Keka</h3>
+            <p>Official 7zz + Services vs a full GUI archiver.</p>
+          </a>
+          <a class="guide-card" href="./7zip-vs-the-unarchiver/">
+            <div class="path">compare</div>
+            <h3>vs The Unarchiver</h3>
+            <p>Extract-only classic vs compress and extract with 7-Zip.</p>
+          </a>
+          <a class="guide-card" href="./guides/">
+            <div class="path">index</div>
+            <h3>All guides &amp; FAQ</h3>
+            <p>Full documentation index, uninstall, and FAQ.</p>
+          </a>
+        </div>
+      </section>
+
       <section id="faq" class="wrap faq" aria-labelledby="faq-title">
         <p class="section-kicker">// faq</p>
         <h2 id="faq-title">FAQ: open 7z on Mac &amp; more</h2>
         <p class="section-lead">
           Common questions about installing 7-Zip on macOS, extracting 7z files, and Finder menus.
+          Full list:
+          <a href="./faq/">7-Zip for Mac FAQ</a>.
         </p>
 
         <details>
@@ -473,6 +553,10 @@
           </div>
           <div>
             <a data-link="repo" href="https://github.com/chengsokdara/7zip-mac" rel="noopener">Source</a>
+            ·
+            <a href="./guides/">Guides</a>
+            ·
+            <a href="./open-7z-on-mac/">Open 7z on Mac</a>
             ·
             <a href="https://www.7-zip.org/" rel="noopener noreferrer">7-Zip.org</a>
           </div>
